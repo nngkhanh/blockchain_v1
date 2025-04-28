@@ -9,9 +9,9 @@ sudo npm install -g truffle
 
 truffle version
 
-sudo npm install -g ganache-cli
+sudo npm install -g ganache
 
-ganache-cli --version
+ganache --version
 
 sudo npm install -g solc
 
@@ -101,8 +101,8 @@ module.exports = function (deployer) {
 ***************/
 
 
-Chạy Ganache CLI trong một terminal riêng để run  các địa chỉ ví và ETH ảo 
-ganache-cli
+Chạy Ganache trong một terminal riêng để run  các địa chỉ ví và ETH ảo  (không dùng ganache-cli nữa vì là bản cũ và không được hỗ trợ cho node 18 20 nữa)
+ganache
 
 Triển khai contract lên mạng Ganache: 
 truffle migrate
@@ -110,6 +110,8 @@ truffle migrate
 
 
 đảm bảo 3 lệnh được chạy khi trước khi run project
-1. ganache-cli
+1. ganache (mỗi khi ganache run lại thì phải cập nhật smart contrac lại bằng lệnh truffle migrate)
 2. truffle migrate (dùng để lấy contract address cho server => dùng trong file server tại const contractAddress ="" )  
-3. node server.js
+3. node server.js hoặc npm run dev (cấu hình trong package.json)
+4. vui lòng chuyển đến branh của mình để chỉnh => giảm xung đột và mất dữ liệu 
+    => git checkout Duy/Khanh (xem file knowledge_git.md để biết cách làm)

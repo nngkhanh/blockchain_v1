@@ -1,35 +1,44 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Ứng dụng Quản lý Ví Blockchain</title>
-</head>
-<body>
-    <h1>Chào mừng đến với Ứng dụng Quản lý Ví Blockchain</h1>
-    <ul>
-        <li><a href="/wallet/create">Tạo ví mới</a></li>
-        <li><form action="/wallet/{{wallet.address}}" method="get"><input type="text" name="address" placeholder="Nhập địa chỉ ví"><button type="submit">Xem thông tin ví</button></form></li>
-        <li><h2>Gửi giao dịch</h2>
-            <form action="/transaction/send" method="post">
-                <input type="text" name="senderPrivateKey" placeholder="Private Key người gửi">
-                <input type="text" name="recipientAddress" placeholder="Địa chỉ người nhận">
-                <input type="number" step="any" name="amount" placeholder="Số lượng ETH">
-                <button type="submit">Gửi</button>
-            </form>
-        </li>
-        <li><h2>Gửi tiền vào Contract</h2>
-            <form action="/contract/deposit" method="post">
-                <input type="text" name="privateKey" placeholder="Private Key của bạn">
-                <input type="number" step="any" name="amount" placeholder="Số lượng ETH">
-                <button type="submit">Gửi</button>
-            </form>
-        </li>
-        <li><h2>Rút tiền từ Contract</h2>
-            <form action="/contract/withdraw" method="post">
-                <input type="text" name="privateKey" placeholder="Private Key của bạn">
-                <input type="number" step="any" name="amount" placeholder="Số lượng ETH">
-                <button type="submit">Rút</button>
-            </form>
-        </li>
-    </ul>
-</body>
+    <head>
+        <title>Ứng dụng Quản lý Ví Blockchain</title>
+    </head>
+    <body>
+        <h1>Chào mừng đến với Ứng dụng Quản lý Ví Blockchain</h1>
+        <ul>
+            <li><a href="/wallet/create">Tạo ví mới</a></li>
+            <li><form action="/wallet" method="get"><input required type="text"
+                        name="address" placeholder="Nhập địa chỉ ví"><button
+                        type="submit">Xem thông tin ví</button></form></li>
+            <li><h2>Gửi giao dịch</h2>
+                <form action="/transaction/send" method="post">
+                    <input type="text" name="senderPrivateKey"
+                        placeholder="Private Key người gửi">
+                    <input type="text" name="recipientAddress"
+                        placeholder="Địa chỉ người nhận">
+                    <input type="number" step="any" name="amount"
+                        placeholder="Số lượng ETH">
+                    <button type="submit">Gửi</button>
+                </form>
+            </li>
+            <li><h2>Gửi tiền vào Contract</h2>
+                <form action="/contract/deposit" method="post">
+                    <input type="text" name="privateKey"
+                        placeholder="Private Key của bạn">
+                    <input type="number" step="any" name="amount"
+                        placeholder="Số lượng ETH">
+                    <button type="submit">Gửi</button>
+                </form>
+            </li>
+            <li><h2>Rút tiền từ Contract</h2>
+                <form action="/contract/withdraw" method="post">
+                    <input type="text" name="privateKey"
+                        placeholder="Private Key của bạn">
+                    <input type="number" step="any" name="amount"
+                        placeholder="Số lượng ETH">
+                    <button type="submit">Rút</button>
+                </form>
+            </li>
+        </ul>
+    </body>
 </html>
