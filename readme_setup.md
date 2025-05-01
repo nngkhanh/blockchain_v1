@@ -5,15 +5,15 @@ sudo dnf install nodejs npm
 node -v
 npm -v
 
-sudo npm install -g truffle
+sudo npm install --save-dev truffle@5.11.5 (nếu dùng window npm install --save-dev truffle@5.11.5)
 
 truffle version
 
-sudo npm install -g ganache
+sudo npm install --save-dev ganache@7.9.2 (nếu dùng window npm install --save-dev ganache@7.9.2)
 
 ganache --version
 
-sudo npm install -g solc
+sudo npm install --save-dev solc@0.8.29 (nếu dùng window npm install --save-dev solc@0.8.29)
 
 solc --version
 
@@ -108,10 +108,33 @@ Triển khai contract lên mạng Ganache:
 truffle migrate
 
 
-
+## bỏ qua đoạn này dùng đoạn bên dưới
 đảm bảo 3 lệnh được chạy khi trước khi run project
-1. ganache (mỗi khi ganache run lại thì phải cập nhật smart contrac lại bằng lệnh truffle migrate)
+1. ganache  (mỗi khi ganache run lại thì phải cập nhật smart contrac lại bằng lệnh truffle migrate)
 2. truffle migrate (dùng để lấy contract address cho server => dùng trong file server tại const contractAddress ="" )  
 3. node server.js hoặc npm run dev (cấu hình trong package.json)
 4. vui lòng chuyển đến branh của mình để chỉnh => giảm xung đột và mất dữ liệu 
     => git checkout Duy/Khanh (xem file knowledge_git.md để biết cách làm)
+
+
+## dùng đoạn này
+cập nhật lệnh run project version 2 (đối với project lần đầu run)
+1. truffle compile (cần gọi lại khi code solidity thay đổi)
+2. npm run ganache 
+3. truffle migrate (cập nhật address vào file .env)
+4. npm run dev
+
+## hoặc dùng đoạn này
+nếu project đã run trước đó thì dùng lệnh sau:
+1. npm run ganache 
+2. npm run dev
+
+
+## lưu ý: để lưu lại lịch sử cũng như các địa chỉ ví đã tạo bới ganache trước khi tắt 
+-> "npm run ganache:start": "ganache --database.dbPath ./ganache-data --mnemonic 'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat'",
+
+## sau khi run lại xong thì ký lại hợp đồng
+    "migrate": "truffle migrate --network development",
+
+## thực hiện biên dịch sao khi cập nhật nội dung cho file sol trong thư mục contract
+truffle compile

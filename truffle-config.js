@@ -3,7 +3,8 @@ module.exports = {
     development: {
       host: "127.0.0.1",
       port: 8545,
-      network_id: "*" // Match any network ID
+      network_id: "*", // Match any network ID
+      // from: "0xFC3b00f2938539Cb4448bA2b784452274D81d9D8" // Địa chỉ ví có ETH trên Ganache
     }
   },
   compilers: {

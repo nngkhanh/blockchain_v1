@@ -4,7 +4,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "ganache:start_new": "ganache --database.dbPath ./ganache-data",
+    "ganache:start": "ganache --database.dbPath ./ganache-data --mnemonic 'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat'",
+    "migrate": "truffle migrate --network development",
+    "contract:deploy": "truffle compile && truffle migrate --reset"
   },
   "keywords": [],
   "author": "",
@@ -12,13 +16,21 @@
   "description": "",
   "dependencies": {
     "body-parser": "^2.2.0",
+    "crypto": "^1.0.1",
     "dotenv": "^16.5.0",
     "ethers": "^6.13.7",
     "express": "^5.1.0",
     "express-handlebars": "^7.1.3",
+    "express-session": "^1.18.1",
+    "fs": "^0.0.1-security",
     "handlebars": "^4.7.8",
     "helmet": "^8.1.0",
     "nodemon": "^3.1.10",
     "web3": "^4.16.0"
+  },
+  "devDependencies": {
+    "ganache": "^7.9.2",
+    "solc": "^0.8.29",
+    "truffle": "^5.11.5"
   }
 }

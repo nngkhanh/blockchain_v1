@@ -1,0 +1,7 @@
+check thông tin ví bằng địa chỉ ví
+gửi tiền giữa các ví
+gửi tiền vào contract
+rút tiền khỏi contract
+lấy lịch sử giao dịch gửi và nhận
+
+

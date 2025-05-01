@@ -5,24 +5,52 @@ const bodyParser = require('body-parser');
 const { engine } = require('express-handlebars');
 const { ethers } = require("ethers");
 const helmet = require('helmet');
+const session = require('express-session');
 const routes = require('./routes');
+const { provider, contract, adminWallet } = require('./services/blockchainService');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+
+// xem số lượng gas price còn lại 
+async function checkGasPrice() {
+    const provider = new ethers.JsonRpcProvider("http://127.0.0.1:8545"); // Ganache mặc định
+    const feeData = await provider.getFeeData();
+    console.log("Gas Price:", ethers.formatUnits(feeData.gasPrice, "gwei"));
+    console.log("Max Fee Per Gas:", ethers.formatUnits(feeData.maxFeePerGas, "gwei"));
+    console.log("Max Priority Fee Per Gas:", ethers.formatUnits(feeData.maxPriorityFeePerGas, "gwei"));
+
+
+} checkGasPrice();
+
+
+// In ra địa chỉ ví admin để kiểm tra
+console.log('Admin address:', adminWallet.address);
+
 // Cấu hình Handlebars
 app.engine('handlebars', engine({
     defaultLayout: 'main',
+    noEscape: true,
+    helpers: {
+        json: (context) => JSON.stringify(context),
+        eq: (a, b) => a === b,
+        ne: (a, b) => a !== b,
+        lt: (a, b) => a < b,
+        gt: (a, b) => a > b,
+        lte: (a, b) => a <= b,
+        gte: (a, b) => a >= b
+    },
     partialsDir: [
-        __dirname + '/views/partials',
+        path.join(__dirname, '/views/partials'),
     ]
 }));
+
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-
+// Cấu hình bảo mật Helmet
 app.use(
     helmet({
         contentSecurityPolicy: {
@@ -37,37 +65,26 @@ app.use(
     })
 );
 
-
-
+// Body parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
-
-
-// Địa chỉ của Smart Contract đã triển khai (cập nhật sau khi migrate)
-const contractAddress = process.env.CONTRACT_ADDRESS;
-// ABI của Smart Contract (lấy từ file build/contracts/WalletManager.json)
-const contractABI = require('./build/contracts/WalletManager.json').abi;
-// Kết nối đến provider (Ganache)
-const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
-
-// Khởi tạo contract instance
-const contract = new ethers.Contract(contractAddress, contractABI, provider);
-
-// Hàm để tạo ví mới
-const createWallet = () => {
-    const wallet = ethers.Wallet.createRandom();
-    return {
-        address: wallet.address,
-        privateKey: wallet.privateKey
-    };
-};
+// Cấu hình session
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET || 'default_session_secret',
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+            maxAge: 1000 * 60 * 60, // 1 giờ
+            httpOnly: true,
+            secure: false, // Đặt true nếu sử dụng HTTPS
+            sameSite: 'lax',
+        },
+    })
+);
 
 // Routes
-app.get('/', (req, res) => {
-    res.render('index');
-});
 app.use('/', routes);
 
 // Middleware xử lý lỗi tổng quát
@@ -76,7 +93,6 @@ app.use((err, req, res, next) => {
     res.status(500).render('error', { message: 'Có lỗi xảy ra trên server. Vui lòng thử lại sau.' });
 });
 
-
 app.listen(port, () => {
-    console.log(`Ứng dụng đang chạy tại http://localhost:${port}`);
+    console.log(`Ứng dụng đang chạy tại http://127.0.0.1:${port}`);
 });

@@ -1,0 +1,60 @@
+<h2>Lịch sử giao dịch của {{address}}</h2>
+
+{{#if history.length}}
+  <table border="1" cellpadding="10" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Loại</th>
+        <th>Gửi từ</th>
+        <th>Nhận đến</th>
+        <th>Số lượng (ETH)</th>
+        <th>Block</th>
+        <th>Tx Hash</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each history}}
+        <tr>
+          <td style="color: {{#if (eq type 'Sent')}}red{{else}}green{{/if}};">{{type}}</td>
+          <td>{{from}}</td>
+          <td>{{to}}</td>
+          <td>{{amount}}</td>
+          <td>{{blockNumber}}</td><h2>Lịch sử giao dịch của {{address}}</h2>
+
+{{#if history.length}}
+  <table border="1" cellpadding="10" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Loại</th>
+        <th>Gửi từ</th>
+        <th>Nhận đến</th>
+        <th>Số lượng (ETH)</th>
+        <th>Block</th>
+        <th>Tx Hash</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each history}}
+        <tr>
+          <td style="color: {{#if (eq type 'Sent')}}red{{else}}green{{/if}};">{{type}}</td>
+          <td>{{from}}</td>
+          <td>{{to}}</td>
+          <td>{{amount}}</td>
+          <td>{{blockNumber}}</td>
+          <td><a href="https://etherscan.io/tx/{{hash}}" target="_blank">{{hash}}</a></td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+{{else}}
+  <p>Không có giao dịch nào được tìm thấy.</p>
+{{/if}}
+
+          <td><a href="https://etherscan.io/tx/{{hash}}" target="_blank">{{hash}}</a></td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+{{else}}
+  <p>Không có giao dịch nào được tìm thấy.</p>
+{{/if}}
