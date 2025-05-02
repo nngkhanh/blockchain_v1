@@ -5,8 +5,10 @@ const bodyParser = require('body-parser');
 const { engine } = require('express-handlebars');
 const { ethers } = require("ethers");
 const helmet = require('helmet');
+const moment = require('moment');
 const session = require('express-session');
 const routes = require('./routes');
+
 const { provider, contract, adminWallet } = require('./services/blockchainService');
 
 const app = express();
@@ -39,7 +41,8 @@ app.engine('handlebars', engine({
         lt: (a, b) => a < b,
         gt: (a, b) => a > b,
         lte: (a, b) => a <= b,
-        gte: (a, b) => a >= b
+        gte: (a, b) => a >= b,
+        formatDate: (timestamp) => moment.unix(timestamp).format('YYYY-MM-DD HH:mm:ss')
     },
     partialsDir: [
         path.join(__dirname, '/views/partials'),

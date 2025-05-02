@@ -20,8 +20,11 @@
         <li>
             <h1 class="numberMoney">Số tiền: {{contractBalance}}</h1>
         </li>
-        <li><a href="/wallet/create">Tạo ví mới</a></li>
         <li>
+            <h2>tạo ví mới</h2>
+            <button><a href="/wallet/create">Tạo ví mới</a></button></li>
+        <li>
+            <h2>xem thông tin ví</h2>
             <form action="/wallet/info" method="get"><input required type="text" name="address"
                     placeholder="Nhập địa chỉ ví"><button type="submit">Xem thông tin ví</button></form>
         </li>
@@ -52,15 +55,18 @@
         </li>
         {{!-- test chức năng của contract tranfer và history --}}
         <li>
+            <h2>chuyển eth bằng contract</h2>
             <form action="/contract/transfer" method="POST">
                 <input name="privateKey" placeholder="Private Key" required />
                 <input name="recipient" placeholder="Recipient Address" required />
-                <input name="amount" placeholder="Amount (ETH)" required />
+                <input id="amountContract" name="amount" placeholder="Amount (ETH)" required />
+                <input id="feeContract" name="fee" placeholder="Fee"  readonly />
+                <input id="total_amount_contract" name="total_amount" placeholder="total amount" readonly />
                 <button type="submit">Chuyển tiền</button>`
             </form>
-            
         </li>
         <li>
+            <h2>xem lịch sử giao dịch bằng contract</h2>
             <form action="/contract/history" method="GET">
                 <input name="address" placeholder="Your Address" required />
                 <button type="submit">Xem lịch sử</button>

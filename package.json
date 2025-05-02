@@ -6,6 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
     "ganache:start_new": "ganache --database.dbPath ./ganache-data",
+    "start:fresh": "rm -rf ./ganache-data && mkdir ./ganache-data && ganache --database.dbPath ./ganache-data --mnemonic 'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat' ",
     "ganache:start": "ganache --database.dbPath ./ganache-data --mnemonic 'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat'",
     "migrate": "truffle migrate --network development",
     "contract:deploy": "truffle compile && truffle migrate --reset"
@@ -25,6 +26,7 @@
     "fs": "^0.0.1-security",
     "handlebars": "^4.7.8",
     "helmet": "^8.1.0",
+    "moment": "^2.30.1",
     "nodemon": "^3.1.10",
     "web3": "^4.16.0"
   },
