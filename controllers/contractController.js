@@ -89,7 +89,7 @@ exports.withdraw = async (req, res) => {
 
         // Kiểm tra số dư thực của contract
         const realContractBalance = await provider.getBalance(contract.address);
-        if (realContractBalance.lt(amountToWithdraw)) {
+        if (realContractBalance < amountToWithdraw) {
             return res.status(400).render('error', {
                 message: `Contract không đủ ETH. Số dư contract: ${ethers.formatEther(realContractBalance)} ETH`
             });
@@ -135,7 +135,7 @@ exports.transfer = async (req, res) => {
 
         // Kiểm tra số dư người gửi
         const senderBalance = await contract.getBalance(wallet.address);
-        if (senderBalance.lt(amountToSend)) {
+        if (senderBalance < amountToSend) {
             return res.status(400).render('error', {
                 message: `Số dư không đủ. Hiện có: ${ethers.formatEther(senderBalance)} ETH`
             });

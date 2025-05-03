@@ -5,8 +5,8 @@
       "iv": "7048bad5c54eded7697b35e596c1775e",
       "content": "72a48c054c8e6f9bf2e650ecb795b53f"
     },
-    "walletAddress": "0x6c56E70FE58870F4098C9318AA8C24853C8e023f",
-    "privateKey": "0xbbc335c67fc18bebc1cae26e52cc9bd34a7a2f184e1099c6e168d504b0168709"
+    "walletAddress": "0x627306090abaB3A6e1400e9345bC60c78a8BEf57",
+    "privateKey": "0xc87509a1c067bbde78beb793e6fa76530b6382a4c0241e5e4a9ec0a0f44dc0d3"
   },
   "alice": {
     "password": {
@@ -15,5 +15,13 @@
     },
     "walletAddress": "0x96d4D096E2E2c55725E1fFc4f029FC9758f1eEBE",
     "privateKey": "0x9b6690bbcd9c0f7620fe1e9b225cca9bd9a98259b5fa203f58e212fc444980d8"
+  },
+  "kali": {
+    "password": {
+      "iv": "e70f093e2773523e594a5455a04fc987",
+      "content": "dfff4ed38462cff8ff0f4cb46130beb6"
+    },
+    "walletAddress": "0x6c56E70FE58870F4098C9318AA8C24853C8e023f",
+    "privateKey": "0xbbc335c67fc18bebc1cae26e52cc9bd34a7a2f184e1099c6e168d504b0168709"
   }
 }
