@@ -33,16 +33,46 @@ console.log('Admin address:', adminWallet.address);
 // Cấu hình Handlebars
 app.engine('handlebars', engine({
     defaultLayout: 'main',
-    noEscape: true,
+    // Xóa noEscape để tăng bảo mật, chỉ bật khi cần
     helpers: {
+        // Helper để serialize JSON
         json: (context) => JSON.stringify(context),
+        // Các helper so sánh
         eq: (a, b) => a === b,
         ne: (a, b) => a !== b,
         lt: (a, b) => a < b,
         gt: (a, b) => a > b,
         lte: (a, b) => a <= b,
         gte: (a, b) => a >= b,
-        formatDate: (timestamp) => moment.unix(timestamp).format('YYYY-MM-DD HH:mm:ss')
+        // Format ngày giờ từ chuỗi timestamp
+        formatDate: (timestamp) => {
+            try {
+                // Nếu timestamp là chuỗi (đã format từ Node.js)
+                if (typeof timestamp === 'string') {
+                    return moment(timestamp, 'MM/DD/YYYY, HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                }
+                // Nếu timestamp là Unix timestamp (số giây)
+                return moment.unix(timestamp).format('YYYY-MM-DD HH:mm:ss');
+            } catch (error) {
+                console.error('Lỗi formatDate:', error);
+                return timestamp; // Trả về nguyên gốc nếu lỗi
+            }
+        },
+        // Rút gọn hash giao dịch
+        truncateHash: (hash) => {
+            if (typeof hash !== 'string') return hash;
+            return `${hash.slice(0, 6)}...${hash.slice(-4)}`;
+        },
+        // Rút gọn địa chỉ Ethereum
+        truncateAddress: (address) => {
+            if (typeof address !== 'string') return address;
+            return `${address.slice(0, 6)}...${address.slice(-4)}`;
+        },
+        // Format số ETH với số thập phân cố định
+        formatEther: (value) => {
+            if (!value) return '0';
+            return Number(value).toFixed(4);
+        }
     },
     partialsDir: [
         path.join(__dirname, '/views/partials'),

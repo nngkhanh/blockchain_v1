@@ -3,16 +3,31 @@ const { ethers } = require('ethers');
 const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
 const contractABI = require('../build/contracts/WalletManager.json').abi;
 const contractAddress = process.env.CONTRACT_ADDRESS;
+
+// Kiểm tra hợp lệ contract address
 if (!contractAddress || !ethers.isAddress(contractAddress)) {
     throw new Error("Địa chỉ contract không hợp lệ hoặc không được cung cấp.");
 }
+
 const contract = new ethers.Contract(contractAddress, contractABI, provider);
+
+// Hàm tiện ích để format lỗi
+const formatError = (error) => {
+    if (error.reason) return error.reason;
+    if (error.message.includes('insufficient funds')) return 'Số dư ví không đủ để trả phí gas.';
+    if (error.message.includes('nonce')) return 'Lỗi nonce, vui lòng kiểm tra lại giao dịch.';
+    return 'Lỗi không xác định, vui lòng thử lại.';
+};
 
 exports.deposit = async (req, res) => {
     const { privateKey, amount } = req.body;
 
+    // Kiểm tra đầu vào
+    if (!privateKey || !ethers.isHexString(privateKey, 32)) {
+        return res.status(400).render('error', { message: "Private key không hợp lệ." });
+    }
     if (!amount || isNaN(amount) || Number(amount) <= 0) {
-        return res.render('error', { message: "Số tiền nạp không hợp lệ." });
+        return res.status(400).render('error', { message: "Số tiền nạp phải là số dương." });
     }
 
     try {
@@ -21,23 +36,40 @@ exports.deposit = async (req, res) => {
         const contractWithSigner = contract.connect(signer);
         const amountToSend = ethers.parseEther(amount);
 
-        const tx = await contractWithSigner.deposit({ value: amountToSend });
-        await tx.wait();
+        // Kiểm tra số dư ví
+        const balance = await provider.getBalance(wallet.address);
+        if (balance < amountToSend) {
+            return res.status(400).render('error', { message: "Số dư ví không đủ để nạp." });
+        }
 
-        res.render('deposit-success', { txHash: tx.hash });
+        // Gửi giao dịch
+        const tx = await contractWithSigner.deposit({
+            value: amountToSend,
+            gasLimit: 200000 // Thêm giới hạn gas mặc định
+        });
+        const receipt = await tx.wait();
+
+        return res.status(200).render('deposit-success', {
+            txHash: tx.hash,
+            amount: amount,
+            from: wallet.address,
+            gasUsed: receipt.gasUsed.toString()
+        });
     } catch (error) {
-        console.error("Lỗi khi gửi tiền vào contract:", error);
-        res.render('error', { message: 'Lỗi khi gửi tiền vào contract.' });
+        console.error("Lỗi khi nạp tiền:", error);
+        return res.status(500).render('error', { message: formatError(error) });
     }
 };
-
 
 exports.withdraw = async (req, res) => {
     const { privateKey, amount } = req.body;
 
     // Kiểm tra đầu vào
-    if (!privateKey || isNaN(amount) || parseFloat(amount) <= 0) {
-        return res.render('error', { message: "Vui lòng nhập số tiền hợp lệ và private key." });
+    if (!privateKey || !ethers.isHexString(privateKey, 32)) {
+        return res.status(400).render('error', { message: "Private key không hợp lệ." });
+    }
+    if (!amount || isNaN(amount) || parseFloat(amount) <= 0) {
+        return res.status(400).render('error', { message: "Số tiền rút phải là số dương." });
     }
 
     try {
@@ -47,90 +79,100 @@ exports.withdraw = async (req, res) => {
         const amountToWithdraw = ethers.parseEther(amount);
         const address = wallet.address;
 
-        // Kiểm tra địa chỉ contract hợp lệ
-        if (!contract.address || !ethers.isAddress(contract.address)) {
-            return res.render('error', { message: "Địa chỉ contract không hợp lệ." });
-        }
-
-        // Lấy số dư trong contract (balance nội bộ)
+        // Kiểm tra số dư trong contract
         const userBalanceInContract = await contract.getBalance(address);
         if (userBalanceInContract.lt(amountToWithdraw)) {
-            return res.render('error', { message: "Số dư của bạn trong contract không đủ." });
+            return res.status(400).render('error', {
+                message: `Số dư trong contract không đủ. Hiện có: ${ethers.formatEther(userBalanceInContract)} ETH`
+            });
         }
 
-        // Lấy số dư thực của contract (external ETH)
+        // Kiểm tra số dư thực của contract
         const realContractBalance = await provider.getBalance(contract.address);
         if (realContractBalance.lt(amountToWithdraw)) {
-            return res.render('error', { message: "Contract không đủ ETH để trả." });
+            return res.status(400).render('error', {
+                message: `Contract không đủ ETH. Số dư contract: ${ethers.formatEther(realContractBalance)} ETH`
+            });
         }
 
         // Thực hiện rút tiền
-        const tx = await contractWithSigner.withdraw(amountToWithdraw);
-        await tx.wait();
-        res.render('withdraw-success', { txHash: tx.hash });
+        const tx = await contractWithSigner.withdraw(amountToWithdraw, {
+            gasLimit: 200000
+        });
+        const receipt = await tx.wait();
 
+        return res.status(200).render('withdraw-success', {
+            txHash: tx.hash,
+            amount: amount,
+            from: address,
+            gasUsed: receipt.gasUsed.toString()
+        });
     } catch (error) {
-        console.error("Lỗi khi rút tiền từ contract:", error);
-        res.render('error', { message: 'Lỗi khi rút tiền từ contract.' });
+        console.error("Lỗi khi rút tiền:", error);
+        return res.status(500).render('error', { message: formatError(error) });
     }
 };
-    
-
-
-
 
 exports.transfer = async (req, res) => {
     const { privateKey, recipient, total_amount } = req.body;
 
+    // Kiểm tra đầu vào
+    if (!privateKey || !ethers.isHexString(privateKey, 32)) {
+        return res.status(400).render('error', { message: "Private key không hợp lệ." });
+    }
     if (!ethers.isAddress(recipient)) {
-        return res.render('error', { message: 'Địa chỉ người nhận không hợp lệ.' });
+        return res.status(400).render('error', { message: "Địa chỉ người nhận không hợp lệ." });
     }
-
-    console.log("total_amount từ request:", total_amount);
-
-    const wallet = new ethers.Wallet(privateKey, provider);
-    const signer = wallet.connect(provider);
-    const contractWithSigner = contract.connect(signer);
-    const total_amountToSend = ethers.parseEther(total_amount);
-    console.log('total_amountToSend (BigNumber): ', total_amountToSend.toString());
-    console.log('Địa chỉ người gửi (từ privateKey):', wallet.address);
-    console.log('Địa chỉ người nhận:', recipient);
-    console.log('Địa chỉ contract:', contract.address); // Thêm log địa chỉ contract
-
-    const senderBalance = await contract.getBalance(wallet.address);
-    console.log('Số dư của người gửi trong contract:', senderBalance.toString());
-
-    // Thử lấy số dư của contract (nếu có hàm)
-    try {
-        const contractBalance = await contract.getBalance(contract.address); // Nếu là Ether
-        console.log('Số dư của contract (Ether):', ethers.formatEther(contractBalance.toString()));
-    } catch (error) {
-        console.log('Không thể lấy số dư Ether của contract hoặc không phải là Ether contract.');
+    if (!total_amount || isNaN(total_amount) || parseFloat(total_amount) <= 0) {
+        return res.status(400).render('error', { message: "Số tiền chuyển phải là số dương." });
     }
 
     try {
-        const tx = await contractWithSigner.transferTo(recipient, total_amountToSend);
-        console.log('Transaction Hash:', tx.hash);
-        await tx.wait();
-        res.render('success', { txHash: tx.hash });
+        const wallet = new ethers.Wallet(privateKey, provider);
+        const signer = wallet.connect(provider);
+        const contractWithSigner = contract.connect(signer);
+        const amountToSend = ethers.parseEther(total_amount);
+
+        // Kiểm tra số dư người gửi
+        const senderBalance = await contract.getBalance(wallet.address);
+        if (senderBalance.lt(amountToSend)) {
+            return res.status(400).render('error', {
+                message: `Số dư không đủ. Hiện có: ${ethers.formatEther(senderBalance)} ETH`
+            });
+        }
+
+        // Thực hiện chuyển tiền
+        const tx = await contractWithSigner.transferTo(recipient, amountToSend, {
+            gasLimit: 200000
+        });
+        const receipt = await tx.wait();
+
+        return res.status(200).render('success', {
+            txHash: tx.hash,
+            amount: total_amount,
+            from: wallet.address,
+            to: recipient,
+            gasUsed: receipt.gasUsed.toString()
+        });
     } catch (error) {
-        console.error("Lỗi khi chuyển tiền qua contract:", error);
-        res.render('error', { message: 'Không thể chuyển tiền.' });
+        console.error("Lỗi khi chuyển tiền:", error);
+        return res.status(500).render('error', { message: formatError(error) });
     }
 };
 
 exports.getTransactionHistory = async (req, res) => {
     const { address } = req.query;
 
+    // Kiểm tra địa chỉ
     if (!ethers.isAddress(address)) {
-        return res.render('error', { message: 'Địa chỉ không hợp lệ.' });
+        return res.status(400).render('error', { message: "Địa chỉ không hợp lệ." });
     }
 
     try {
         const history = [];
         const lowerAddress = address.toLowerCase();
 
-        // Truy vấn event liên quan
+        // Truy vấn các sự kiện
         const depositEvents = await contract.queryFilter(contract.filters.Deposit(lowerAddress));
         const withdrawalEvents = await contract.queryFilter(contract.filters.Withdrawal(lowerAddress));
         const sentTransferEvents = await contract.queryFilter(contract.filters.Transfer(lowerAddress, null));
@@ -143,14 +185,14 @@ exports.getTransactionHistory = async (req, res) => {
             ...receivedTransferEvents.map(e => ({ type: 'Received', event: e })),
         ];
 
-        // Duyệt và bổ sung thông tin chi tiết
+        // Xử lý chi tiết giao dịch
         for (const { type, event } of allEvents) {
             const tx = await provider.getTransaction(event.transactionHash);
             const receipt = await provider.getTransactionReceipt(event.transactionHash);
             const block = await provider.getBlock(event.blockNumber);
 
             const gasUsed = receipt.gasUsed;
-            const gasPrice = tx.gasPrice;
+            const gasPrice = tx.gasPrice || receipt.effectiveGasPrice;
             const gasFee = ethers.formatEther(gasUsed * gasPrice);
 
             history.push({
@@ -160,18 +202,22 @@ exports.getTransactionHistory = async (req, res) => {
                 amount: ethers.formatEther(event.args.amount),
                 hash: event.transactionHash,
                 blockNumber: event.blockNumber,
-                timestamp: block.timestamp,
-                gasFee
+                timestamp: new Date(block.timestamp * 1000).toLocaleString(),
+                gasFee,
+                status: receipt.status === 1 ? 'Thành công' : 'Thất bại'
             });
         }
 
-        // Sắp xếp theo block mới nhất trước
+        // Sắp xếp theo thời gian giảm dần
         history.sort((a, b) => b.blockNumber - a.blockNumber);
 
-        res.render('history', { address, history });
-    } catch (err) {
-        console.error("Lỗi khi lấy lịch sử giao dịch:", err);
-        res.render('error', { message: 'Không thể lấy lịch sử giao dịch.' });
+        return res.status(200).render('history', {
+            address,
+            history,
+            totalTransactions: history.length
+        });
+    } catch (error) {
+        console.error("Lỗi khi lấy lịch sử giao dịch:", error);
+        return res.status(500).render('error', { message: "Không thể lấy lịch sử giao dịch." });
     }
 };
-
