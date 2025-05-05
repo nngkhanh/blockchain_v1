@@ -1,0 +1,214 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* HEADER CHUNG */
+.header {
+    background-color: #5c9ecf;
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.header__nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+}
+
+.header__nav a:hover {
+    text-decoration: underline;
+}
+
+/* NỘI DUNG CHÍNH */
+.main-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+}
+
+
+/* BẢNG NGƯỜI DÙNG */
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.user-table th,
+.user-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.user-table th {
+    background-color: #f5f5f5;
+}
+
+.user-table tr:hover {
+    background-color: #f0f8ff;
+}
+
+.main-content__title {
+    margin-bottom: 10px;
+}
+
+/* NÚT HÀNH ĐỘNG */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.action-buttons button {
+    padding: 5px 10px;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #5c9ecf;
+}
+
+.action-buttons .delete-btn {
+    background-color: red;
+}
+
+.action-buttons button:hover {
+    opacity: 0.8;
+}
+
+/* FOOTER */
+.footer {
+    background-color: #5c9ecf;
+    color: white;
+    padding: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Nguoi Dung */
+.wallet-box {
+    width: 80%;
+}
+
+.wallet-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.wallet-username {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.wallet-username--uppercase {
+    text-transform: uppercase;
+}
+
+.wallet-address {
+    background-color: #ddd;
+    padding: 10px 15px;
+    border-radius: 15px;
+    font-weight: bold;
+    overflow-x: auto;
+    white-space: nowrap;
+    margin-top: 20px;
+}
+
+.wallet-address__value {
+    word-break: break-word;
+    display: inline-block;
+}
+
+.wallet-logout-btn {
+    padding: 10px 20px;
+    border: none;
+    background-color: #ddd;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.wallet-logout-btn:hover {
+    background-color: #ccc;
+}
+
+.wallet-active-tab {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* Trang chu */
+.wallet-history-container {
+    flex: 1;
+    min-width: 400px;
+    background-color: #ddd;
+    padding: 15px;
+    border-radius: 15px;
+    max-height: 600px;
+    height: 500px;
+    /* thử dùng height cố định để test */
+    overflow-y: auto;
+}
+
+.wallet-history-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.wallet-history-item {
+    border-radius: 10px;
+    margin-bottom: 10px;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.wallet-history-top {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 5px;
+    font-weight: 500;
+    gap: 10px;
+}
+
+.wallet-address__value {
+    font-size: 14px;
+    color: #333;
+    word-break: break-word;
+    font-size: 16px;
+}
