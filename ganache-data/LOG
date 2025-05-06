@@ -1,5 +1,21 @@
+<<<<<<< HEAD
 2025/05/03-22:54:44.049392 7f6cbeffe6c0 Recovering log #15
 2025/05/03-22:54:44.049517 7f6cbeffe6c0 Level-0 table #18: started
 2025/05/03-22:54:44.052427 7f6cbeffe6c0 Level-0 table #18: 5491 bytes OK
 2025/05/03-22:54:44.059878 7f6cbeffe6c0 Delete type=0 #15
 2025/05/03-22:54:44.059931 7f6cbeffe6c0 Delete type=3 #13
+=======
+2025/05/06-11:03:19.996084 7fbb457fe6c0 Recovering log #12
+2025/05/06-11:03:19.996212 7fbb457fe6c0 Level-0 table #14: started
+2025/05/06-11:03:20.009496 7fbb457fe6c0 Level-0 table #14: 5878 bytes OK
+2025/05/06-11:03:20.016084 7fbb457fe6c0 Delete type=0 #12
+2025/05/06-11:03:20.016134 7fbb457fe6c0 Delete type=3 #10
+2025/05/06-11:03:20.016274 7fbb437fa6c0 Compacting 4@0 + 0@1 files
+2025/05/06-11:03:20.019877 7fbb437fa6c0 Generated table #16@0: 297 keys, 58428 bytes
+2025/05/06-11:03:20.019909 7fbb437fa6c0 Compacted 4@0 + 0@1 files => 58428 bytes
+2025/05/06-11:03:20.023914 7fbb437fa6c0 compacted to: files[ 0 1 0 0 0 0 0 ]
+2025/05/06-11:03:20.023969 7fbb437fa6c0 Delete type=2 #5
+2025/05/06-11:03:20.024059 7fbb437fa6c0 Delete type=2 #8
+2025/05/06-11:03:20.024093 7fbb437fa6c0 Delete type=2 #11
+2025/05/06-11:03:20.024120 7fbb437fa6c0 Delete type=2 #14
+>>>>>>> origin/Duy
