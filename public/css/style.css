@@ -22,31 +22,7 @@ body {
     min-height: 100vh;
 }
 
-/* HEADER CHUNG */
-.header {
-    background-color: #5c9ecf;
-    color: white;
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
 
-.header__title {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.header__nav a {
-    color: white;
-    text-decoration: none;
-    margin-left: 20px;
-    font-weight: 500;
-}
-
-.header__nav a:hover {
-    text-decoration: underline;
-}
 
 /* NỘI DUNG CHÍNH */
 .main-content {
@@ -108,14 +84,6 @@ body {
     opacity: 0.8;
 }
 
-/* FOOTER */
-.footer {
-    background-color: #5c9ecf;
-    color: white;
-    padding: 10px;
-    font-size: 14px;
-    text-align: center;
-}
 
 /* Nguoi Dung */
 .wallet-box {
