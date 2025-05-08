@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Header Sang Trọng - Ví Blockchain</title>
     <link rel="stylesheet" href="css/header.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Inter:wght@500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Inter:wght@500;600&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <header class="main-header">
         <div class="logo">Ví Blockchain</div>
@@ -21,14 +25,16 @@
         </nav>
 
         <div class="auth-buttons">
+            {{#if isLoggedIn}}
+            <button class="btn wallet">Kết nối ví</button>
+            {{else}}
             <a href="/user/login">
                 <button class="btn login">Đăng nhập</button>
             </a>
             <a href="/user/register">
                 <button class="btn register">Đăng ký</button>
             </a>
-            <!-- Nút kết nối ví (giả lập, ẩn khi chưa đăng nhập) -->
-            <button class="btn wallet hidden">Kết nối ví</button>
+            {{/if}}
         </div>
 
         <!-- Nút hamburger cho mobile -->
@@ -46,4 +52,5 @@
         });
     </script>
 </body>
+
 </html>

@@ -1,7 +1,5 @@
 exports.getManage_wallet = (req, res) => {
     try {
-           
-        console.log("1112321");
         res.render('manage-wallet');
 
        } catch (err) {
