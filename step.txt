@@ -5,3 +5,8 @@ rút tiền khỏi contract
 lấy lịch sử giao dịch gửi và nhận
 
 
+trang chủ: 
+trang giao dịch: chuyển tiền vào contract và rút tiền khỏi contract, nạp tiền vào ví bằng cách mua
+trang lịch sử giao dịch: 
+trang cài đặt: đăng xuất, quên mật khẩu, tên người dùng 
+trang quản lý ví: xem các ví đã tạo và tao thêm ví mới

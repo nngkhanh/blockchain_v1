@@ -1,40 +1,53 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rút tiền thành công</title>
     <style>
-        body {
+        .contain-withdraw-success {
             font-family: Arial, sans-serif;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
             line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
+
         .success-box {
             border: 1px solid #4CAF50;
             padding: 20px;
             border-radius: 5px;
             background-color: #e8f5e9;
         }
+
         a {
             color: #007BFF;
             text-decoration: none;
         }
+
         a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
+
 <body>
-    <h1>Rút tiền thành công</h1>
-    <div class="success-box">
-        <p><strong>Hash giao dịch:</strong> <a href="https://etherscan.io/tx/{{txHash}}" target="_blank">{{txHash}}</a></p>
-        <p><strong>Số tiền:</strong> {{amount}} ETH</p>
-        <p><strong>Từ địa chỉ:</strong> {{from}}</p>
-        <p><strong>Gas sử dụng:</strong> {{gasUsed}} wei</p>
+    <div class="contain-withdraw-success">
+        <h1>Rút tiền thành công</h1>
+        <div class="success-box">
+            <p><strong>Hash giao dịch:</strong> <a href="https://etherscan.io/tx/{{txHash}}"
+                    target="_blank">{{txHash}}</a></p>
+            <p><strong>Số tiền:</strong> {{amount}} ETH</p>
+            <p><strong>Từ địa chỉ:</strong> {{from}}</p>
+            <p><strong>Gas sử dụng:</strong> {{gasUsed}} wei</p>
+        </div>
+        <p><a href="/">Quay lại trang chủ</a></p>
     </div>
-    <p><a href="/">Quay lại trang chủ</a></p>
 </body>
+
 </html>

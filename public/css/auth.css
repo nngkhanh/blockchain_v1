@@ -7,7 +7,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
 }
 
 .auth-container {
@@ -59,4 +58,9 @@ body {
 
 .auth-container a:hover {
     text-decoration: underline;
+}
+
+
+.login{
+    /* height: 100vh; */
 }

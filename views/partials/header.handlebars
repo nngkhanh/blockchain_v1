@@ -1,8 +1,49 @@
-<link rel="stylesheet" href="/css/header.css">
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Header Sang Trọng - Ví Blockchain</title>
+    <link rel="stylesheet" href="css/header.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Inter:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">Ví Blockchain</div>
 
-<header class="header  header__nav">
-    <h1>Tiêu đề trang web của bạn</h1>
-    <nav>
-        <a href="/">Trang chủ</a> | <a href="/gioi-thieu">Giới thiệu</a> | <a href="/lien-he">Liên hệ</a>
-    </nav>
-</header>
+        <nav class="nav-center">
+            <a href="/" class="nav-button active">Trang chủ</a>
+            <a href="/wallet" class="nav-button">Quản lý ví</a>
+            <a href="/transactions" class="nav-button">Giao dịch</a>
+            <a href="/transactions/history" class="nav-button">Lịch sử giao dịch</a>
+            <a href="#" class="nav-button">Cài đặt</a>
+            <a href="/test" class="nav-button">Test</a>
+        </nav>
+
+        <div class="auth-buttons">
+            <a href="/user/login">
+                <button class="btn login">Đăng nhập</button>
+            </a>
+            <a href="/user/register">
+                <button class="btn register">Đăng ký</button>
+            </a>
+            <!-- Nút kết nối ví (giả lập, ẩn khi chưa đăng nhập) -->
+            <button class="btn wallet hidden">Kết nối ví</button>
+        </div>
+
+        <!-- Nút hamburger cho mobile -->
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <!-- JavaScript cho hamburger menu -->
+    <script>
+        document.querySelector('.hamburger').addEventListener('click', () => {
+            document.querySelector('.nav-center').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

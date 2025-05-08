@@ -1,25 +1,202 @@
-/* HEADER CHUNG */
-.header {
-    background-color: #5c9ecf;
-    color: white;
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* Biến CSS để quản lý màu sắc và giá trị */
+:root {
+  --primary-color: #1A73E8; /* Xanh dương sang trọng */
+  --hover-color: #1557B0; /* Xanh đậm khi hover */
+  --secondary-color: #FFFFFF; /* Trắng */
+  --text-color: #333; /* Màu chữ chính */
+  --accent-color: #FFD700; /* Vàng ánh kim làm điểm nhấn */
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
 }
 
-.header__title {
-    font-size: 24px;
-    font-weight: bold;
+/* Reset và font */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', 'Inter', sans-serif;
 }
 
-.header__nav a {
-    color: white;
-    text-decoration: none;
-    margin-left: 20px;
-    font-weight: 500;
+/* Header */
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 40px;
+  background-color: var(--secondary-color);
+  box-shadow: var(--shadow);
+  width: 100vw;
+  z-index: 1000;
+  min-height: 60px;
+  animation: fadeIn 0.5s ease-in;
 }
 
-.header__nav a:hover {
-    text-decoration: underline;
+/* Hiệu ứng fade-in */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Logo */
+.logo {
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--primary-color);
+  letter-spacing: 1px;
+  transition: var(--transition);
+}
+
+.logo:hover {
+  color: var(--hover-color);
+  transform: scale(1.05);
+}
+
+/* Menu điều hướng */
+.nav-center {
+  display: flex;
+  gap: 24px;
+}
+
+.nav-button {
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: 500;
+  font-size: 16px;
+  position: relative;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: var(--transition);
+}
+
+.nav-button::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+.nav-button:hover,
+.nav-button.active {
+  color: var(--primary-color);
+  background-color: rgba(26, 115, 232, 0.1);
+}
+
+.nav-button:hover::after,
+.nav-button.active::after {
+  width: 100%;
+}
+
+/* Nút đăng nhập/đăng ký/kết nối ví */
+.auth-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: 2px solid var(--primary-color);
+  border-radius: 6px;
+  background-color: transparent;
+  color: var(--primary-color);
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn:hover {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  transform: scale(1.05);
+}
+
+.register {
+  background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+  color: var(--secondary-color);
+  border: none;
+}
+
+.register:hover {
+  background: linear-gradient(45deg, var(--hover-color), var(--accent-color));
+  transform: scale(1.05);
+}
+
+.wallet {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  border: none;
+}
+
+.wallet:hover {
+  background-color: #E6C200;
+  transform: scale(1.05);
+}
+
+.hidden {
+  display: none; /* Ẩn nút kết nối ví khi chưa đăng nhập */
+}
+
+/* Hamburger menu cho mobile */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: var(--text-color);
+  transition: var(--transition);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-header {
+      padding: 10px 20px;
+  }
+
+  .nav-center {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      background-color: var(--secondary-color);
+      padding: 20px;
+      box-shadow: var(--shadow);
+  }
+
+  .nav-center.active {
+      display: flex;
+  }
+
+  .nav-button {
+      text-align: center;
+      padding: 12px;
+  }
+
+  .auth-buttons {
+      display: none; /* Ẩn nút trên mobile */
+  }
+
+  .hamburger {
+      display: flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+      font-size: 22px;
+  }
+
+  .main-header {
+      min-height: 50px;
+  }
 }

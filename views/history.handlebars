@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,90 +8,109 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
         }
+
+        .containt-history {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
         h2 {
             color: #333;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
-        th, td {
+
+        th,
+        td {
             padding: 10px;
             text-align: left;
             border: 1px solid #ddd;
         }
+
         th {
             background-color: #f4f4f4;
             font-weight: bold;
         }
+
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
+
         a {
             color: #007BFF;
             text-decoration: none;
         }
+
         a:hover {
             text-decoration: underline;
         }
+
         .no-data {
             color: #888;
             font-style: italic;
         }
+
         .status-success {
             color: green;
             font-weight: bold;
         }
+
         .status-failed {
             color: red;
             font-weight: bold;
         }
     </style>
 </head>
-<body>
-    <h2>Lịch sử giao dịch của {{truncateAddress address}}</h2>
-    <p><strong>Tổng số giao dịch:</strong> {{total/partials}} {{totalTransactions}}</p>
 
-    {{#if history.length}}
-    <table>
-        <thead>
-            <tr>
-                <th>Loại</th>
-                <th>Gửi</th>
-                <th>Nhận</th>
-                <th>Số lượng (ETH)</th>
-                <th>Ngày/Giờ</th>
-                <th>Phí Gas (ETH)</th>
-                <th>Block</th>
-                <th>Tx Hash</th>
-                <th>Trạng thái</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each history}}
-            <tr>
-                <td style="color: {{#if (eq type 'Sent')}}red{{else}}green{{/if}};">{{type}}</td>
-                <td>{{truncateAddress from}}</td>
-                <td>{{truncateAddress to}}</td>
-                <td>{{formatEther amount}}</td>
-                <td>{{formatDate timestamp}}</td>
-                <td>{{formatEther gasFee}}</td>
-                <td>{{blockNumber}}</td>
-                <td><a href="https://etherscan.io/tx/{{hash}}" target="_blank">{{truncateHash hash}}</a></td>
-                <td class="{{#if (eq status 'Thành công')}}status-success{{else}}status-failed{{/if}}">{{status}}</td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-    {{else}}
-    <p class="no-data">Không có giao dịch nào được tìm thấy.</p>
-    {{/if}}
-    <p><a href="/">Quay lại trang chủ</a></p>
+<body>
+    <div class="containt-history">
+        <h2>Lịch sử giao dịch của {{truncateAddress address}}</h2>
+        <p><strong>Tổng số giao dịch:</strong> {{total/partials}} {{totalTransactions}}</p>
+
+        {{#if history.length}}
+        <table>
+            <thead>
+                <tr>
+                    <th>Loại</th>
+                    <th>Gửi</th>
+                    <th>Nhận</th>
+                    <th>Số lượng (ETH)</th>
+                    <th>Ngày/Giờ</th>
+                    <th>Phí Gas (ETH)</th>
+                    <th>Block</th>
+                    <th>Tx Hash</th>
+                    <th>Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each history}}
+                <tr>
+                    <td style="color: {{#if (eq type 'Sent')}}red{{else}}green{{/if}};">{{type}}</td>
+                    <td>{{truncateAddress from}}</td>
+                    <td>{{truncateAddress to}}</td>
+                    <td>{{formatEther amount}}</td>
+                    <td>{{formatDate timestamp}}</td>
+                    <td>{{formatEther gasFee}}</td>
+                    <td>{{blockNumber}}</td>
+                    <td><a href="https://etherscan.io/tx/{{hash}}" target="_blank">{{truncateHash hash}}</a></td>
+                    <td class="{{#if (eq status 'Thành công')}}status-success{{else}}status-failed{{/if}}">{{status}}
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        {{else}}
+        <p class="no-data">Không có giao dịch nào được tìm thấy.</p>
+        {{/if}}
+        <p><a href="/">Quay lại trang chủ</a></p>
+    </div>
 </body>
+
 </html>

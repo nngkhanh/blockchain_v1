@@ -1,15 +1,18 @@
 require('dotenv').config();
 const { ethers } = require('ethers');
-const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
-const contractABI = require('../build/contracts/WalletManager.json').abi;
-const contractAddress = process.env.CONTRACT_ADDRESS;
+// const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
+// const contractABI = require('../build/contracts/WalletManager.json').abi;
+// const contractAddress = process.env.CONTRACT_ADDRESS;
+
+const { provider, contract, adminWallet } = require('../services/blockchainService');
+
 
 // Kiểm tra hợp lệ contract address
-if (!contractAddress || !ethers.isAddress(contractAddress)) {
-    throw new Error("Địa chỉ contract không hợp lệ hoặc không được cung cấp.");
-}
+// if (!contractAddress || !ethers.isAddress(contractAddress)) {
+//     throw new Error("Địa chỉ contract không hợp lệ hoặc không được cung cấp.");
+// }
 
-const contract = new ethers.Contract(contractAddress, contractABI, provider);
+// const contract = new ethers.Contract(contractAddress, contractABI, provider);
 
 // Hàm tiện ích để format lỗi
 const formatError = (error) => {
@@ -81,14 +84,15 @@ exports.withdraw = async (req, res) => {
 
         // Kiểm tra số dư trong contract
         const userBalanceInContract = await contract.getBalance(address);
-        if (userBalanceInContract.lt(amountToWithdraw)) {
+        if (userBalanceInContract < amountToWithdraw) {
             return res.status(400).render('error', {
                 message: `Số dư trong contract không đủ. Hiện có: ${ethers.formatEther(userBalanceInContract)} ETH`
             });
         }
 
         // Kiểm tra số dư thực của contract
-        const realContractBalance = await provider.getBalance(contract.address);
+        console.log("contract.address:", contract?.address);
+        const realContractBalance = await provider.getBalance(address);
         if (realContractBalance < amountToWithdraw) {
             return res.status(400).render('error', {
                 message: `Contract không đủ ETH. Số dư contract: ${ethers.formatEther(realContractBalance)} ETH`
