@@ -7,7 +7,9 @@
     "dev": "nodemon server.js",
     "ganache:start_new": "ganache --database.dbPath ./ganache-data",
     "start:fresh": "rm -rf ./ganache-data && mkdir ./ganache-data && ganache --database.dbPath ./ganache-data --mnemonic 'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat' ",
+    "start:fresh-window": "powershell -Command \"Remove-Item -Recurse -Force .\\ganache-data; New-Item -ItemType Directory -Path .\\ganache-data; ganache --database.dbPath ./ganache-data --mnemonic 'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat'\"",
     "ganache:start": "ganache --database.dbPath ./ganache-data --mnemonic 'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat'",
+    "ganache:start-window": "powershell -Command \"ganache --database.dbPath ./ganache-data --mnemonic \\\"candy maple cake sugar pudding cream honey rich smooth crumble sweet treat\\\"\"",
     "migrate": "truffle migrate --network development",
     "contract:deploy": "truffle compile && truffle migrate --reset"
   },
