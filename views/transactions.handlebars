@@ -121,24 +121,28 @@
         </div>
 
         <div class="actions-container">
-            <div class="action-box">
+            <form action="/contract/deposit" method="POST" class="action-box">
                 <h3>Nạp tiền vào Contract</h3>
-                <input type="number" id="depositAmount" placeholder="Nhập số ETH muốn nạp" />
-                <button onclick="deposit()">Nạp tiền</button>
-            </div>
+                <input type="number" name="amount" placeholder="Nhập số ETH muốn nạp" required step="any" />
+                <button type="submit">Nạp tiền</button>
+            </form>
 
             <div class="transfer-box">
                 <h3>Chuyển tiền giữa các tài khoản</h3>
-                <input type="text" id="receiverAddress" placeholder="Địa chỉ người nhận (0x...)" />
-                <input type="number" id="transferAmount" placeholder="Số ETH muốn chuyển" />
-                <button onclick="transfer()">Chuyển tiền</button>
+                <form action="/contract/transfer" method="POST" id="transferForm">
+                    <input type="text" name="recipient" id="receiverAddress" placeholder="Địa chỉ người nhận (0x...)"
+                        required />
+                    <input type="number" name="total_amount" id="transferAmount" placeholder="Số ETH muốn chuyển" step="any"
+                        required />
+                    <button type="submit">Chuyển tiền</button>
+                </form>
             </div>
 
-            <div class="action-box">
+            <form action="/contract/withdraw" method="POST" class="action-box">
                 <h3>Rút tiền khỏi Contract</h3>
-                <input type="number" id="withdrawAmount" placeholder="Nhập số ETH muốn rút" />
-                <button onclick="withdraw()">Rút tiền</button>
-            </div>
+                <input type="number" name="amount" placeholder="Nhập số ETH muốn rút" required step="any" />
+                <button type="submit">Rút tiền</button>
+            </form>
         </div>
     </div>
 </body>

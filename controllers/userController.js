@@ -94,7 +94,8 @@ function postLogin(req, res) {
     // Lưu thông tin người dùng vào session
     req.session.user = {
         username: username,
-        walletAddress: users[username].wallets[0]?.address // Lấy địa chỉ ví đầu tiên
+        walletAddress: users[username].wallets[0]?.address, // Lấy địa chỉ ví đầu tiên
+        privateKey: users[username].wallets[0]?.privateKey
     };
     req.session.isLoggedIn = true;
 

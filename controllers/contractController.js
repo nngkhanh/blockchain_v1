@@ -23,12 +23,18 @@ const formatError = (error) => {
 };
 
 exports.deposit = async (req, res) => {
-    const { privateKey, amount } = req.body;
+    let { privateKey, amount } = req.body;
+    const privateKey_session = req.session.user?.privateKey;
 
-    // Kiểm tra đầu vào
+    // Ưu tiên privateKey từ form, nếu không có thì dùng session
+    privateKey = privateKey || privateKey_session;
+
+    // Kiểm tra privateKey hợp lệ
     if (!privateKey || !ethers.isHexString(privateKey, 32)) {
         return res.status(400).render('error', { message: "Private key không hợp lệ." });
     }
+
+    // Kiểm tra amount hợp lệ
     if (!amount || isNaN(amount) || Number(amount) <= 0) {
         return res.status(400).render('error', { message: "Số tiền nạp phải là số dương." });
     }
@@ -45,16 +51,16 @@ exports.deposit = async (req, res) => {
             return res.status(400).render('error', { message: "Số dư ví không đủ để nạp." });
         }
 
-        // Gửi giao dịch
+        // Gửi giao dịch nạp tiền vào Contract
         const tx = await contractWithSigner.deposit({
             value: amountToSend,
-            gasLimit: 200000 // Thêm giới hạn gas mặc định
+            gasLimit: 200000
         });
         const receipt = await tx.wait();
 
         return res.status(200).render('deposit-success', {
             txHash: tx.hash,
-            amount: amount,
+            amount,
             from: wallet.address,
             gasUsed: receipt.gasUsed.toString()
         });
@@ -64,8 +70,13 @@ exports.deposit = async (req, res) => {
     }
 };
 
+
 exports.withdraw = async (req, res) => {
-    const { privateKey, amount } = req.body;
+    let { privateKey, amount } = req.body;
+    const privateKey_session = req.session.user?.privateKey;
+
+    // Ưu tiên privateKey từ form, nếu không có thì dùng session
+    privateKey = privateKey || privateKey_session;
 
     // Kiểm tra đầu vào
     if (!privateKey || !ethers.isHexString(privateKey, 32)) {
@@ -82,7 +93,7 @@ exports.withdraw = async (req, res) => {
         const amountToWithdraw = ethers.parseEther(amount);
         const address = wallet.address;
 
-        // Kiểm tra số dư trong contract
+        // Kiểm tra số dư trong contract của người dùng
         const userBalanceInContract = await contract.getBalance(address);
         if (userBalanceInContract < amountToWithdraw) {
             return res.status(400).render('error', {
@@ -90,9 +101,13 @@ exports.withdraw = async (req, res) => {
             });
         }
 
-        // Kiểm tra số dư thực của contract
-        console.log("contract.address:", contract?.address);
-        const realContractBalance = await provider.getBalance(address);
+        // Kiểm tra số dư ETH thực tế của contract
+        const contractAddress = contract?.target || contract?.address;
+        if (!contractAddress) {
+            return res.status(500).render('error', { message: "Không xác định được địa chỉ contract." });
+        }
+
+        const realContractBalance = await provider.getBalance(contractAddress);
         if (realContractBalance < amountToWithdraw) {
             return res.status(400).render('error', {
                 message: `Contract không đủ ETH. Số dư contract: ${ethers.formatEther(realContractBalance)} ETH`
@@ -107,7 +122,7 @@ exports.withdraw = async (req, res) => {
 
         return res.status(200).render('withdraw-success', {
             txHash: tx.hash,
-            amount: amount,
+            amount,
             from: address,
             gasUsed: receipt.gasUsed.toString()
         });
@@ -117,8 +132,14 @@ exports.withdraw = async (req, res) => {
     }
 };
 
+
+
 exports.transfer = async (req, res) => {
-    const { privateKey, recipient, total_amount } = req.body;
+    let { privateKey, recipient, total_amount } = req.body;
+    const privateKey_session = req.session.user?.privateKey;
+
+    // Ưu tiên privateKey từ form, nếu không có thì dùng session
+    privateKey = privateKey || privateKey_session;
 
     // Kiểm tra đầu vào
     if (!privateKey || !ethers.isHexString(privateKey, 32)) {
@@ -163,6 +184,7 @@ exports.transfer = async (req, res) => {
         return res.status(500).render('error', { message: formatError(error) });
     }
 };
+
 
 exports.getTransactionHistory = async (req, res) => {
     const { address } = req.query;
