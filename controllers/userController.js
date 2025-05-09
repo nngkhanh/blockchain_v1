@@ -2,8 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const { encrypt, decrypt } = require('../helper/cryptoHelper');
 const walletController = require('./walletController');
-
-
 const usersFile = path.join(__dirname, '../database/users.json');
 
 // Load users
@@ -21,20 +19,18 @@ function loadUsers() {
     }
 }
 
-
-
 // Save users
 function saveUsers(users) {
     fs.writeFileSync(usersFile, JSON.stringify(users, null, 2));
 }
 
 // [GET] Trang đăng ký
-exports.getRegister = (req, res) => {
+function getRegister(req, res) {
     res.render('register');
-};
+}
 
 // [POST] Xử lý đăng ký
-exports.postRegister = (req, res) => {
+function postRegister(req, res) {
     const { username, password, confirmPassword } = req.body;
 
     if (!username || !password || !confirmPassword) {
@@ -50,31 +46,32 @@ exports.postRegister = (req, res) => {
         return res.render('register', { error: 'Tên đăng nhập đã tồn tại.' });
     }
 
-    const encrypted = encrypt(password);
+    const encrypted = encrypt(password); // Mã hóa password
+    const wallet = walletController.createWalletFunction(); // Tạo ví khi người dùng đăng ký
 
-    const wallet = walletController.createWalletFunction();
-
-
+    // Tạo object người dùng với mảng wallets
     users[username] = {
         password: encrypted,
-        walletAddress: wallet.address,
-        privateKey: wallet.privateKey
+        wallets: [
+            {
+                address: wallet.address,
+                privateKey: wallet.privateKey, // Lưu private key trực tiếp (không mã hóa)
+                createdAt: new Date().toLocaleDateString('vi-VN')
+            }
+        ]
     };
 
-
-    
     saveUsers(users);
-
     res.redirect('/user/login');
-};
+}
 
 // [GET] Trang đăng nhập
-exports.getLogin = (req, res) => {
+function getLogin(req, res) {
     res.render('login');
-};
+}
 
 // [POST] Xử lý đăng nhập
-exports.postLogin = (req, res) => {
+function postLogin(req, res) {
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -88,17 +85,27 @@ exports.postLogin = (req, res) => {
 
     const encryptedPassword = users[username].password;
     const decrypted = decrypt(encryptedPassword);
-    
+
     if (decrypted !== password) {
         return res.render('login', { error: 'Mật khẩu không đúng.' });
     }
 
     // Lưu thông tin người dùng vào session
-    req.session.user = { username:username ,walletAddress:users[username].walletAddress };
-    // localStorage.setItem('username', loggedInUsername);
-    // localStorage.setItem('walletAddress', loggedInWalletAddress);
+    req.session.user = {
+        username: username,
+        walletAddress: users[username].wallets[0]?.address // Lấy địa chỉ ví đầu tiên
+    };
     req.session.isLoggedIn = true;
 
     // Đăng nhập thành công
     res.redirect('/');
+}
+
+module.exports = {
+    getRegister,
+    postRegister,
+    getLogin,
+    postLogin,
+    loadUsers,
+    saveUsers // Thêm saveUsers để sử dụng trong các controller khác
 };

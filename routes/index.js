@@ -10,8 +10,6 @@ const userRouters = require('./userRoutes');
 const testRouter = require('./testRouter');
 const manageWalletRoutes = require('./manageWalletRoutes');
 
-const walletController = require('../controllers/walletController');
-
 router.get('/', (req, res) => {
     res.render('index');
 });

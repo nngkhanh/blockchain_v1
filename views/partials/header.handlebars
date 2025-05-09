@@ -6,9 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Header Sang Trọng - Ví Blockchain</title>
     <link rel="stylesheet" href="css/header.css" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Inter:wght@500;600&display=swap"
-        rel="stylesheet">
 </head>
 
 <body>
@@ -19,7 +16,7 @@
             <a href="/" class="nav-button active">Trang chủ</a>
             <a href="/manage-wallet" class="nav-button">Quản lý ví</a>
             <a href="/transactions" class="nav-button">Giao dịch</a>
-            <a href="/transactions/history" class="nav-button">Lịch sử giao dịch</a>
+            {{!-- <a href="/transactions/history" class="nav-button">Lịch sử giao dịch</a> --}}
             <a href="#" class="nav-button">Cài đặt</a>
             <a href="/test" class="nav-button">Test</a>
         </nav>
@@ -47,8 +44,15 @@
 
     <!-- JavaScript cho hamburger menu -->
     <script>
-        document.querySelector('.hamburger').addEventListener('click', () => {
-            document.querySelector('.nav-center').classList.toggle('active');
+        const navButtons = document.querySelectorAll('.nav-button');
+        const currentPath = window.location.pathname;
+
+        navButtons.forEach(button => {
+            if (button.getAttribute('href') === currentPath) {
+                button.classList.add('active');
+            } else {
+                button.classList.remove('active');
+            }
         });
     </script>
 </body>

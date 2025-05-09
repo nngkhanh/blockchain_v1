@@ -1,1 +1,152 @@
-<h1>quanr lys vi</h1>
+<!-- views/wallets.handlebars -->
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Quản Lý Ví Blockchain</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+    }
+
+    .title {
+      text-align: center;
+      color: #333;
+    }
+
+    .wallet-container {}
+
+    .wallet-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .wallet-card {
+      background: #fff;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .wallet-info {
+      overflow: hidden;
+    }
+
+    .wallet-address {
+      font-size: 0.9em;
+      color: #666;
+      word-break: break-all;
+    }
+
+    .wallet-balance {
+      font-weight: bold;
+      color: #2d8f6f;
+    }
+
+    .wallet-actions button {
+      margin-left: 10px;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background: #3498db;
+      color: #fff;
+      transition: background 0.3s;
+    }
+
+    .wallet-actions button:hover {
+      background: #2980b9;
+    }
+
+    .header-wallet-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 20px 0;
+    }
+
+    .header-wallet-container .btn_create_wallet {
+      padding: 10px;
+      border-radius: 10px;
+      background-color: burlywood;
+      text-decoration: none;
+    }
+
+    .header-wallet-container .btn_create_wallet:hover {
+      background-color: rgb(156, 159, 224);
+    }
+
+    .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<div id="loading-message" style="display:none; color: green; text-align:center; font-weight: bold;">
+  Đang tạo ví mới...
+</div>
+
+<body>
+  <div class="wallet-container">
+    <div class="header-wallet-container">
+      <h1 class="title">Danh Sách Ví Của Bạn</h1>
+      <form action="/manage-wallet/create-wallet" method="POST" style="display:inline;">
+        <button type="submit" class="btn_create_wallet">+ Tạo Ví Mới</button>
+      </form>
+
+    </div>
+    {{#if successMessage}}
+    <div class="alert-success">{{successMessage}}</div>
+    {{/if}}
+    <div class="wallet-list">
+      {{#each wallets}}
+      <div class="wallet-card">
+        <div class="wallet-info">
+          <div><strong>Địa chỉ:</strong> <span class="wallet-address">{{this.address}}</span></div>
+          <div><strong>Thời gian tạo:</strong> {{this.createdAt}}</div>
+          <div><strong>Số dư:</strong> <span class="wallet-balance">{{this.balance}} ETH</span></div>
+        </div>
+        <div class="wallet-actions">
+          <button onclick="handleDeposit('{{this.address}}')">Nạp</button>
+          <button onclick="handleWithdraw('{{this.address}}')">Rút</button>
+
+          <form action="/contract/history" method="GET" style="display:inline;">
+            <input type="hidden" name="address" value="{{this.address}}">
+            <button type="submit">Lịch sử giao dịch</button>
+          </form>
+        </div>
+
+      </div>
+      {{else}}
+      <p>Chưa có ví nào. Hãy tạo ví mới!</p>
+      {{/each}}
+    </div>
+  </div>
+
+  <script>
+    function handleDeposit(address) {
+      // Logic nạp tiền (có thể mở modal hoặc gửi request)
+      alert('Nạp vào ví: ' + address);
+    }
+
+    function handleWithdraw(address) {
+      // Logic rút tiền
+      alert('Rút từ ví: ' + address);
+    }
+
+    document.querySelector("form").addEventListener("submit", function () {
+      document.getElementById("loading-message").style.display = "block";
+    });
+  </script>
+</body>
+
+</html>

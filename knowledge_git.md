@@ -9,3 +9,17 @@ git checkout <Name-branch>
 git merge <branch-muốn-merge>
 
 !!! nếu có xung đột (2 branh ghi lên 1 dòng thì xung đột) cần giải quyết thu công xem cái nào cần lấy cái nào cần bỏ
+
+
+.. yêu cầu đồ án
+định nghĩa smart contract thế nào ra sao
+
+đang dùng mạng gì ethereum mà ganache là giả lập của ethereum
+
+nói được cách lưu cấu trúc của blockchain và cách lấy dữ liệu từ blockchain
+
+nói được giới thiệu về nghiệp vụ phần mềm sẽ làm gì 
+
+cài đặt 
+
+
