@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cài đặt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef1f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f4f4f4;
+            padding: 20px 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .user-info h1 {
+            font-size: 22px;
+            color: #333;
+            margin: 0;
+        }
+
+        .logout-btn {
+            padding: 8px 16px;
+            font-size: 14px;
+            background-color: #ff4b5c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #ff2a3d;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .password-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button[type="submit"] {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        .message {
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="user-info">
+            <h1>Xin chào {{user.username}}</h1>
+            <a href="/user/logout">
+                <button class="logout-btn">Đăng xuất</button>
+            </a>
+        </div>
+
+        {{#if error}}
+        <div class="message error">{{error}}</div>
+        {{/if}}
+
+        {{#if success}}
+        <div class="message success">{{success}}</div>
+        {{/if}}
+
+
+        <form id="password-form" action="/user/change-password" method="POST">
+            <div class="password-group">
+                <label for="old-password">Mật khẩu cũ:</label>
+                <input type="password" id="old-password" name="oldPassword" required />
+            </div>
+
+            <div class="password-group">
+                <label for="new-password">Mật khẩu mới:</label>
+                <input type="password" id="new-password" name="newPassword" required />
+            </div>
+
+            <div class="password-group">
+                <label for="confirm-password">Xác nhận mật khẩu mới:</label>
+                <input type="password" id="confirm-password" name="confirmPassword" required />
+            </div>
+
+            <button type="submit">Cập nhật mật khẩu</button>
+        </form>
+    </div>
+</body>
+
+</html>

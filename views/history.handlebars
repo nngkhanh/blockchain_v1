@@ -7,45 +7,57 @@
     <title>Lịch sử giao dịch</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-        }
-
-        .containt-history {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
         }
 
         h2 {
-            color: #333;
+            text-align: center;
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 10px 0;
+            text-align: center;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            font-size: 15px;
         }
 
         th,
         td {
-            padding: 10px;
+            padding: 12px 10px;
+            border: 1px solid #e1e4e8;
             text-align: left;
-            border: 1px solid #ddd;
         }
 
         th {
-            background-color: #f4f4f4;
-            font-weight: bold;
+            background-color: #f0f2f5;
+            color: #333;
         }
 
         tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #fafafa;
+        }
+
+        tr:hover {
+            background-color: #f1f7ff;
         }
 
         a {
             color: #007BFF;
             text-decoration: none;
+            word-break: break-all;
         }
 
         a:hover {
@@ -55,6 +67,8 @@
         .no-data {
             color: #888;
             font-style: italic;
+            text-align: center;
+            margin-top: 20px;
         }
 
         .status-success {
@@ -66,11 +80,51 @@
             color: red;
             font-weight: bold;
         }
+
+        .type-sent {
+            color: red;
+            font-weight: bold;
+        }
+
+        .type-received {
+            color: green;
+            font-weight: bold;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .back-link a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-link a:hover {
+            background-color: #2980b9;
+        }
+
+        @media (max-width: 768px) {
+            table {
+                font-size: 13px;
+            }
+
+            th,
+            td {
+                padding: 8px;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <div class="containt-history">
+    <div class="container">
         <h2>Lịch sử giao dịch của {{truncateAddress address}}</h2>
         <p><strong>Tổng số giao dịch:</strong> {{total/partials}} {{totalTransactions}}</p>
 
@@ -92,7 +146,7 @@
             <tbody>
                 {{#each history}}
                 <tr>
-                    <td style="color: {{#if (eq type 'Sent')}}red{{else}}green{{/if}};">{{type}}</td>
+                    <td class="{{#if (eq type 'Sent')}}type-sent{{else}}type-received{{/if}}">{{type}}</td>
                     <td>{{truncateAddress from}}</td>
                     <td>{{truncateAddress to}}</td>
                     <td>{{formatEther amount}}</td>
@@ -109,7 +163,10 @@
         {{else}}
         <p class="no-data">Không có giao dịch nào được tìm thấy.</p>
         {{/if}}
-        <p><a href="/">Quay lại trang chủ</a></p>
+
+        <div class="back-link">
+            <a href="/">Quay lại trang chủ</a>
+        </div>
     </div>
 </body>
 

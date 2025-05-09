@@ -1,15 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ví mới</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Inter:wght@500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        .wallet-body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f8;
+            font-family: 'Poppins', 'Inter', sans-serif;
+            color: #333;
+        }
+
+        .wallet-container {
+            max-width: 600px;
+            margin: 80px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .wallet-title {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .wallet-paragraph {
+            font-size: 16px;
+            line-height: 1.6;
+            word-break: break-word;
+        }
+
+        .wallet-strong {
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .wallet-warning {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .wallet-button {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+
+        .wallet-button:hover {
+            background-color: #2980b9;
+        }
+    </style>
 </head>
 
-<body>
-    <h1>Ví mới của bạn</h1>
-    <p><strong>Địa chỉ:</strong> {{wallet.address}}</p>
-    <p><strong>Private Key:</strong> {{wallet.privateKey}} (Hãy giữ bí mật private key này!)</p>
-    <p><a href="/">Quay lại trang chủ</a></p>
+<body class="wallet-body">
+    <div class="wallet-container">
+        <h1 class="wallet-title">Ví mới của bạn</h1>
+        <p class="wallet-paragraph"><span class="wallet-strong">Địa chỉ:</span> {{wallet.address}}</p>
+        <p class="wallet-paragraph"><span class="wallet-strong">Private Key:</span> {{wallet.privateKey}} <br>
+            <span class="wallet-warning">(Hãy giữ bí mật private key này!)</span>
+        </p>
+        <a class="wallet-button" href="/">Quay lại trang chủ</a>
+    </div>
 </body>
 
 </html>
