@@ -122,6 +122,7 @@ app.use(
 app.use((req, res, next) => {
     // Kiểm tra xem có session userId hay không (có thể thay thế bằng JWT hoặc cách khác)
     res.locals.isLoggedIn = req.session && req.session.isLoggedIn ? true : false;
+    res.locals.user= req.session && req.session.user ? req.session.user : null;
     next();
 });
 
