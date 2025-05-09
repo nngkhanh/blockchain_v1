@@ -1,5 +1,7 @@
 const { ethers } = require('ethers');
 const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
+const walletController = require('../controllers/walletController');
+
 
 exports.sendTransaction = async (req, res) => {
     const { senderPrivateKey, recipientAddress, amount } = req.body;
@@ -27,6 +29,29 @@ exports.sendTransaction = async (req, res) => {
 };
 
 
+
+exports.getTransaction = async (req, res) => {
+    try {
+        try {
+            const userName = req.session.user.username;
+            const amount = await walletController.fetchWalletData(req.session.user.walletAddress);
+
+            res.render('transactions', {
+                user: req.session.user,
+                userName,
+                nativeBalance: amount.nativeBalance,
+                contractBalance: amount.contractBalance,
+                walletAddress: req.session.user.walletAddress
+            });
+        } catch (err) {
+            console.error('Lỗi khi render trang chủ:', err.message);
+            res.status(500).render('error', { message: 'Không thể tải dữ liệu ví. Vui lòng thử lại sau.' });
+        }
+    } catch (error) {
+        console.error("Lỗi khi hiển thị trang giao dịch:", error);
+        res.status(500).render('error', { message: 'Đã xảy ra lỗi khi cố gắng hiển thị trang giao dịch.' });
+    }
+};
 
 
 
