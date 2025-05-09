@@ -10,3 +10,7 @@ trang giao dịch: chuyển tiền vào contract và rút tiền khỏi contract
 trang lịch sử giao dịch: 
 trang cài đặt: đăng xuất, quên mật khẩu, tên người dùng 
 trang quản lý ví: xem các ví đã tạo và tao thêm ví mới
+
+
+
+
