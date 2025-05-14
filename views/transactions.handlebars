@@ -9,7 +9,6 @@
         body {
             font-family: Arial, sans-serif;
             background: #f4f4f4;
-            padding: 20px;
             margin: 0;
         }
 
@@ -21,7 +20,7 @@
         }
 
         .wallet-info {
-            text-align: center;
+            text-align: start;
             margin-bottom: 30px;
             background: #fff;
             padding: 20px;
@@ -31,6 +30,7 @@
 
         .wallet-info h2 {
             margin: 5px 0;
+            opacity: 0.8;
         }
 
         .actions-container {
@@ -114,16 +114,16 @@
 <body>
     <div class="contain-transactions">
         <div class="wallet-info">
-            <h2>xin chào {{userName}}</h2>
-            <h2>Địa chỉ ví: <span id="walletAddress">{{walletAddress}}</span></h2>
-            <h2>Số dư ví: <span id="walletBalance">{{nativeBalance}} ETH</span></h2>
+            <h2>Xin chào: <span>{{userName}}</span></h2>
+            <h2>Địa chỉ ví: <span>{{walletAddress}}</span></h2>
+            <h2>Số dư ví: <span>{{nativeBalance}} ETH</span></h2>
             <h2>Số dư trong Contract: <span id="contractBalance">{{contractBalance}} ETH</span></h2>
         </div>
 
         <div class="actions-container">
             <form action="/contract/deposit" method="POST" class="action-box">
                 <h3>Nạp tiền vào Contract</h3>
-                <input type="number" name="amount" placeholder="Nhập số ETH muốn nạp" required step="any" />
+                <input type="number" name="amount" placeholder="Nhập số ETH muốn nạp" step="any" required />
                 <button type="submit">Nạp tiền</button>
             </form>
 
@@ -132,8 +132,8 @@
                 <form action="/contract/transfer" method="POST" id="transferForm">
                     <input type="text" name="recipient" id="receiverAddress" placeholder="Địa chỉ người nhận (0x...)"
                         required />
-                    <input type="number" name="total_amount" id="transferAmount" placeholder="Số ETH muốn chuyển" step="any"
-                        required />
+                    <input type="number" name="total_amount" id="transferAmount" placeholder="Số ETH muốn chuyển"
+                        step="any" required />
                     <button type="submit">Chuyển tiền</button>
                 </form>
             </div>

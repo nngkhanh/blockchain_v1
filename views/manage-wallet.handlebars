@@ -38,6 +38,10 @@
       overflow: hidden;
     }
 
+    .wallet-info div {
+      margin-bottom: 10px;
+    }
+
     .wallet-address {
       font-size: 0.9em;
       color: #666;
@@ -99,7 +103,7 @@
   <div class="wallet-container">
     <div class="header-wallet-container">
       <h1 class="title">Ví Của Bạn</h1>
-      {{!-- <form  action="/manage-wallet/create-wallet" method="POST" style="display:inline;">
+      {{!-- <form action="/manage-wallet/create-wallet" method="POST" style="display:inline;">
         <button type="submit" class="btn_create_wallet">+ Tạo Ví Mới</button>
       </form> --}}
 
@@ -116,8 +120,8 @@
           <div><strong>Số dư:</strong> <span class="wallet-balance">{{this.balance}} ETH</span></div>
         </div>
         <div class="wallet-actions">
-          <button onclick="handleDeposit('{{this.address}}')">Nạp</button>
-          <button onclick="handleWithdraw('{{this.address}}')">Rút</button>
+          {{!-- <button onclick="handleDeposit('{{this.address}}')">Nạp</button>
+          <button onclick="handleWithdraw('{{this.address}}')">Rút</button> --}}
 
           <form action="/contract/history" method="GET" style="display:inline;">
             <input type="hidden" name="address" value="{{this.address}}">

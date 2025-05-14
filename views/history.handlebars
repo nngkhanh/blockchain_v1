@@ -10,19 +10,18 @@
             font-family: Arial, sans-serif;
             background-color: #f9f9f9;
             margin: 0;
-            padding: 20px;
         }
 
         .container {
             max-width: 100%;
             margin: 0 auto;
             text-align: center;
-            padding: 0 10px;
         }
 
-        h2 {
+        .container h2 {
             color: #333;
             margin-bottom: 10px;
+            margin-top: 20px;
         }
 
         .total-transactions {
@@ -44,7 +43,8 @@
             padding: 15px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             text-align: left;
-            overflow-x: auto; /* Thêm thanh cuộn ngang nếu nội dung quá dài */
+            overflow-x: auto;
+            /* Thêm thanh cuộn ngang nếu nội dung quá dài */
         }
 
         .transaction-card div {
@@ -57,7 +57,8 @@
         .transaction-card strong {
             color: #333;
             width: 120px;
-            flex-shrink: 0; /* Ngăn label bị co lại */
+            flex-shrink: 0;
+            /* Ngăn label bị co lại */
         }
 
         .transaction-type-sent {
@@ -70,10 +71,13 @@
             font-weight: bold;
         }
 
-        .address, .hash {
-            white-space: nowrap; /* Giữ chuỗi trên một dòng */
+        .address,
+        .hash {
+            white-space: nowrap;
+            /* Giữ chuỗi trên một dòng */
             color: #666;
-            font-family: monospace; /* Font dễ đọc cho địa chỉ và hash */
+            font-family: monospace;
+            /* Font dễ đọc cho địa chỉ và hash */
             font-size: 0.9em;
         }
 
@@ -94,19 +98,17 @@
             margin: 20px 0;
         }
 
-        a {
+        .back-link {
             color: #007BFF;
             text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .back-link {
             display: inline-block;
+            margin-bottom: 20px;
             margin-top: 20px;
             font-size: 1em;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
         }
 
         @media (max-width: 600px) {
@@ -136,7 +138,8 @@
             <div class="transaction-card">
                 <div>
                     <strong>Loại:</strong>
-                    <span class="{{#if (eq type 'Sent')}}transaction-type-sent{{else}}transaction-type-received{{/if}}">{{type}}</span>
+                    <span
+                        class="{{#if (eq type 'Sent')}}transaction-type-sent{{else}}transaction-type-received{{/if}}">{{type}}</span>
                 </div>
                 <div>
                     <strong>Gửi:</strong>
@@ -164,7 +167,8 @@
                 </div>
                 <div>
                     <strong>Trạng thái:</strong>
-                    <span class="{{#if (eq status 'Thành công')}}status-success{{else}}status-failed{{/if}}">{{status}}</span>
+                    <span
+                        class="{{#if (eq status 'Thành công')}}status-success{{else}}status-failed{{/if}}">{{status}}</span>
                 </div>
             </div>
             {{/each}}
