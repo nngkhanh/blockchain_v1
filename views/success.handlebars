@@ -1,10 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-    <title>Ví mới</title>
+    <meta charset="UTF-8">
+    <title>Chi tiết giao dịch</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2ecc71;
+            text-align: center;
+        }
+
+        .info {
+            margin-top: 20px;
+        }
+
+        .info label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+
+        .info p {
+            margin: 5px 0 10px;
+            word-break: break-word;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .back-link a {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-   <h1>thành công</h1>
-   <h1>{{txHash}}</h1>
+    <div class="container">
+        <h1>Giao dịch thành công!</h1>
+
+        <div class="info">
+            <label>Tx Hash:</label>
+            <p>{{txHash}}</p>
+
+            <label>Người gửi:</label>
+            <p>{{from}}</p>
+
+            <label>Người nhận:</label>
+            <p>{{to}}</p>
+
+            <label>Số tiền:</label>
+            <p>{{amount}} ETH</p>
+
+            <label>Gas đã sử dụng:</label>
+            <p>{{gasUsed}}</p>
+        </div>
+
+        <div class="back-link">
+            <a href="/">← Quay lại trang chính</a>
+        </div>
+    </div>
 </body>
 </html>
